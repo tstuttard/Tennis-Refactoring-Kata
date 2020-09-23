@@ -6,43 +6,43 @@ namespace Tennis
     {
         private string player1Name;
         private string player2Name;
-        private Dictionary<string, int> score = new Dictionary<string, int>();
+        private Dictionary<string, int> points = new Dictionary<string, int>();
         public GameScore(string player1Name, string player2Name)
         {
             this.player1Name = player1Name;
             this.player2Name = player2Name;
-            score[player1Name] = 0;
-            score[player2Name] = 0;
+            points[player1Name] = 0;
+            points[player2Name] = 0;
         }
 
-        public int getPlayerOneScore()
+        public int getPlayerOnePointsWon()
         {
-            return score[player1Name];
+            return points[player1Name];
         }
 
-        public int getPlayerTwoScore()
+        public int getPlayerTwoPointsWon()
         {
-            return score[player2Name];
+            return points[player2Name];
         }
 
-        public void increaseScore(string playerName)
+        public void winPoint(string playerName)
         {
-            if (!score.ContainsKey(playerName))
+            if (!points.ContainsKey(playerName))
             {
                 throw new PlayerNotFoundException($"{playerName} not found.");
             }
             
-            score[playerName] += 1;
+            points[playerName] += 1;
         }
 
-        public bool isScoreTied()
+        public bool isTie()
         {
-            return score[player1Name] == score[player2Name];
+            return points[player1Name] == points[player2Name];
         }
 
         public bool isDeuce()
         {
-            return score[player1Name] >= 4 || score[player2Name] >= 4;
+            return points[player1Name] >= 4 || points[player2Name] >= 4;
         }
     }
     
@@ -61,7 +61,7 @@ namespace Tennis
 
         public void WonPoint(string playerName)
         {
-            currentGameScore.increaseScore(playerName);
+            currentGameScore.winPoint(playerName);
         }
 
         public string GetScore()
@@ -72,9 +72,9 @@ namespace Tennis
             // todo allow the changing of how the scores are displayed
             // todo show which players are winning
             // todo add a wimbledon scoreboard display
-            if (currentGameScore.isScoreTied())
+            if (currentGameScore.isTie())
             {
-                switch (currentGameScore.getPlayerOneScore())
+                switch (currentGameScore.getPlayerOnePointsWon())
                 {
                     case 0:
                         scoreOutput = "Love-All";
@@ -93,7 +93,7 @@ namespace Tennis
             }
             else if (currentGameScore.isDeuce())
             {
-                var minusResult = currentGameScore.getPlayerOneScore() - currentGameScore.getPlayerTwoScore();
+                var minusResult = currentGameScore.getPlayerOnePointsWon() - currentGameScore.getPlayerTwoPointsWon();
                 if (minusResult == 1) scoreOutput = "Advantage player1";
                 else if (minusResult == -1) scoreOutput = "Advantage player2";
                 else if (minusResult >= 2) scoreOutput = "Win for player1";
@@ -103,8 +103,8 @@ namespace Tennis
             {
                 for (var i = 1; i < 3; i++)
                 {
-                    if (i == 1) tempScore = currentGameScore.getPlayerOneScore();
-                    else { scoreOutput += "-"; tempScore = currentGameScore.getPlayerTwoScore(); }
+                    if (i == 1) tempScore = currentGameScore.getPlayerOnePointsWon();
+                    else { scoreOutput += "-"; tempScore = currentGameScore.getPlayerTwoPointsWon(); }
                     switch (tempScore)
                     {
                         case 0:
