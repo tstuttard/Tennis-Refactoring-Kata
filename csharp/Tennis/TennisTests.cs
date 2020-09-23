@@ -81,6 +81,15 @@ namespace Tennis
             RealisticTennisGame(game);
         }
 
+        [Test]
+        public void OnlyAllowTwoPlayers()
+        {
+            var game = new TennisGame1("player1", "player2");
+
+            PlayerNotFoundException exception = Assert.Throws<PlayerNotFoundException>(() => game.WonPoint("player3"));
+            Assert.AreEqual("player3 not found.", exception.Message);
+        }
+
         private void RealisticTennisGame(ITennisGame game)
         {
             string[] points = { "player1", "player1", "player2", "player2", "player1", "player1" };

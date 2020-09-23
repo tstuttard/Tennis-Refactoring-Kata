@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Tennis
@@ -9,11 +8,14 @@ namespace Tennis
         private int m_score2 = 0;
         private string player1Name;
         private string player2Name;
+        private Dictionary<string, int> score = new Dictionary<string, int>();
 
         public TennisGame1(string player1Name, string player2Name)
         {
             this.player1Name = player1Name;
             this.player2Name = player2Name;
+            this.score[player1Name] = 0;
+            this.score[player2Name] = 0;
         }
 
         public void WonPoint(string playerName)
@@ -22,6 +24,10 @@ namespace Tennis
             // todo use a ValueObject to represent a Point
 
             // todo add test for different player names
+            if (!this.score.ContainsKey(playerName))
+            {
+                throw new PlayerNotFoundException($"{playerName} not found.");
+            }
             if (playerName == "player1")
             {
                 m_score1 += 1;
