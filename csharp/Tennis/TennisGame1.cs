@@ -46,7 +46,7 @@ namespace Tennis
             // todo allow the changing of how the scores are displayed
             // todo show which players are winning
             // todo add a wimbledon scoreboard display
-            if (m_score1 == m_score2)
+            if (isScoreTied())
             {
                 switch (m_score1)
                 {
@@ -65,7 +65,7 @@ namespace Tennis
 
                 }
             }
-            else if (m_score1 >= 4 || m_score2 >= 4)
+            else if (isDuece())
             {
                 var minusResult = m_score1 - m_score2;
                 if (minusResult == 1) score = "Advantage player1";
@@ -97,6 +97,16 @@ namespace Tennis
                 }
             }
             return score;
+        }
+
+        private bool isDuece()
+        {
+            return m_score1 >= 4 || m_score2 >= 4;
+        }
+
+        private bool isScoreTied()
+        {
+            return m_score1 == m_score2;
         }
     }
 }
