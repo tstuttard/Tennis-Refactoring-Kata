@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Tennis
 {
     class TennisGame1 : ITennisGame
@@ -15,16 +18,28 @@ namespace Tennis
 
         public void WonPoint(string playerName)
         {
+            // todo use map to track points won.
+            // todo use a ValueObject to represent a Point
+
+            // todo add test for different player names
             if (playerName == "player1")
+            {
                 m_score1 += 1;
+            }
             else
+            {
                 m_score2 += 1;
+            }
         }
 
         public string GetScore()
         {
             string score = "";
             var tempScore = 0;
+            
+            // todo allow the changing of how the scores are displayed
+            // todo show which players are winning
+            // todo add a wimbledon scoreboard display
             if (m_score1 == m_score2)
             {
                 switch (m_score1)
