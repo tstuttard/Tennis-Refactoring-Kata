@@ -2,28 +2,28 @@ using System.Collections.Generic;
 
 namespace Tennis
 {
-    class TennisGame1 : ITennisGame
+    internal class TennisGame1 : ITennisGame
     {
         private IGameScore currentGameScore;
-        private Dictionary<string, int> gamesWon;
+        private readonly Dictionary<string, int> gamesWon;
 
         public TennisGame1(IGameScore gameScore)
         {
             currentGameScore = gameScore;
-            gamesWon = new Dictionary<string, int>();
-            gamesWon.Add(gameScore.getPlayerOneName(), 0);
-            gamesWon.Add(gameScore.getPlayerTwoName(), 0);
+            gamesWon = new Dictionary<string, int>
+            {
+                {gameScore.getPlayerOneName(), 0}, {gameScore.getPlayerTwoName(), 0}
+            };
         }
 
         public void WonPoint(string playerName)
         {
             currentGameScore.winPoint(playerName);
+
+            if (!currentGameScore.hasPlayerWon(playerName)) return;
             
-            if (currentGameScore.getCurrentScore().Contains("Win"))
-            {
-                currentGameScore = new GameScore(currentGameScore.getPlayerOneName(), currentGameScore.getPlayerTwoName());
-                gamesWon[playerName] += 1;
-            }
+            currentGameScore = new GameScore(currentGameScore.getPlayerOneName(), currentGameScore.getPlayerTwoName());
+            gamesWon[playerName] += 1;
         }
 
         public string GetScore()

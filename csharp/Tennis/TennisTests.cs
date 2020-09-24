@@ -6,18 +6,13 @@ namespace Tennis
 {
     class Point
     {
-        public string PlayerName { get; set; }
-        public string Score { get; set; }
+        public string playerName { get; }
+        public string score { get; }
 
         public Point(string playerName, string score)
         {
-            PlayerName = playerName;
-            Score = score;
-        }
-
-        public Point()
-        {
-            
+            this.playerName = playerName;
+            this.score = score;
         }
     }
     
@@ -59,6 +54,8 @@ namespace Tennis
         private readonly int player1Score;
         private readonly int player2Score;
         private readonly string expectedScore;
+        private const string player1Name = "player1";
+        private const string player2Name = "player2";
 
         public TennisTests(int player1Score, int player2Score, string expectedScore)
         {
@@ -70,7 +67,7 @@ namespace Tennis
         [Test]
         public void CheckGameScore()
         {
-            var gameScore = new GameScore("player1", "player2");
+            var gameScore = new GameScore(player1Name, player2Name);
             CheckAllScores(gameScore);
         }
 
@@ -80,9 +77,9 @@ namespace Tennis
             for (var i = 0; i < highestScore; i++)
             {
                 if (i < player1Score)
-                    game.winPoint("player1");
+                    game.winPoint(player1Name);
                 if (i < player2Score)
-                    game.winPoint("player2");
+                    game.winPoint(player2Name);
             }
 
             Assert.AreEqual(expectedScore, game.getCurrentScore());
@@ -138,8 +135,8 @@ namespace Tennis
 
             foreach (Point pointWon in pointsWon)
             {
-                game.WonPoint(pointWon.PlayerName);
-                Assert.AreEqual(pointWon.Score, game.GetScore());
+                game.WonPoint(pointWon.playerName);
+                Assert.AreEqual(pointWon.score, game.GetScore());
             }
 
             Assert.AreEqual(2, game.GetGamesWon(player1Name));
@@ -149,10 +146,6 @@ namespace Tennis
 
         private void RealisticTennisGame(ITennisGame game)
         {
-            string[] points = {player1Name, player1Name, player2Name, player2Name, player1Name, player1Name};
-            string[] expectedScores =
-                {"Fifteen-Love", "Thirty-Love", "Thirty-Fifteen", "Thirty-All", "Forty-Thirty", "Love-All"};
-
             List<Point> pointsWon = new List<Point>
             {
                 new Point(player1Name, "Fifteen-Love"),
@@ -165,8 +158,8 @@ namespace Tennis
             
             foreach (Point pointWon in pointsWon)
             {
-                game.WonPoint(pointWon.PlayerName);
-                Assert.AreEqual(pointWon.Score, game.GetScore());
+                game.WonPoint(pointWon.playerName);
+                Assert.AreEqual(pointWon.score, game.GetScore());
             }
         }
     }

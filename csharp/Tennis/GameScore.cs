@@ -4,9 +4,9 @@ namespace Tennis
 {
     class GameScore : IGameScore
     {
-        private string player1Name;
-        private string player2Name;
-        private Dictionary<string, int> points = new Dictionary<string, int>();
+        private readonly string player1Name;
+        private readonly string player2Name;
+        private readonly Dictionary<string, int> points = new Dictionary<string, int>();
 
         public GameScore(string player1Name, string player2Name)
         {
@@ -36,17 +36,17 @@ namespace Tennis
             points[playerName] += 1;
         }
 
-        public bool isTie()
+        private bool isTie()
         {
             return points[player1Name] == points[player2Name];
         }
 
-        public bool isDeuce()
+        private bool isDeuce()
         {
             return points[player1Name] >= 4 || points[player2Name] >= 4;
         }
 
-        public string getCurrentTiedScore()
+        private string getCurrentTiedScore()
         {
             switch (getPlayerOnePointsWon())
             {
@@ -61,25 +61,18 @@ namespace Tennis
             }
         }
 
-        public string getCurrentDeuceScore()
+        private string getCurrentDeuceScore()
         {
             var minusResult = this.getPlayerOnePointsWon() - this.getPlayerTwoPointsWon();
-            if (minusResult == 1)
+            switch (minusResult)
             {
-                return "Advantage player1";
+                case 1:
+                    return "Advantage player1";
+                case -1:
+                    return "Advantage player2";
             }
 
-            if (minusResult == -1)
-            {
-                return "Advantage player2";
-            }
-
-            if (minusResult >= 2)
-            {
-                return "Win for player1";
-            }
-
-            return "Win for player2";
+            return minusResult >= 2 ? "Win for player1" : "Win for player2";
         }
 
         public string getCurrentScore()
@@ -94,10 +87,10 @@ namespace Tennis
                 return getCurrentDeuceScore();
             }
             
-            string scoreOutput = "";
-            int tempScore;
+            var scoreOutput = "";
             for (var i = 1; i < 3; i++)
             {
+                int tempScore;
                 if (i == 1) tempScore = getPlayerOnePointsWon();
                 else
                 {
@@ -133,6 +126,11 @@ namespace Tennis
         public string getPlayerOneName()
         {
             return player1Name;
+        }
+
+        public bool hasPlayerWon(string playerName)
+        {
+            return getCurrentScore().Equals($"Win for {playerName}");
         }
     }
 }

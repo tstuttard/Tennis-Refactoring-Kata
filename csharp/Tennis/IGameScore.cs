@@ -7,5 +7,6 @@ namespace Tennis
         string getCurrentScore();
         string getPlayerTwoName();
         string getPlayerOneName();
+        bool hasPlayerWon(string playerName);
     }
 }
