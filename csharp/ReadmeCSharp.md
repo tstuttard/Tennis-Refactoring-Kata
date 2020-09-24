@@ -11,6 +11,8 @@ love -> 15 -> 30 -> 40 -> Game Won
 State transitions would probably make the transitions between points easier to understand. I didn't really want to touch the Tennis Score logic as it seemed to work fine and it would have been too much work to refactor.
 
 
+I would also have added more sad path tests to make sure that the existing code doesn't fail. For instance I added a test to make sure you couldn't introduce a 3rd player.
+
 If you wanted to take this a bit deeper I would use events to model a tennis game match.
 FaultedOnServe, ServeLandedIn, PointWon, GameWon, SetWon, MatchOne using an event store to store all events. These events could then be used to populate a number of different views such as: Live Game ScoreBoard, Real Time Statistics (percentage of serves in), Serve Analysis View etc.
 
