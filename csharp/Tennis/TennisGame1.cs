@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Tennis
 {
-    class GameScore
+    class GameScore : IGameScore
     {
         private string player1Name;
         private string player2Name;
@@ -50,13 +50,13 @@ namespace Tennis
     {
         private string player1Name;
         private string player2Name;
-        private GameScore currentGameScore;
+        private IGameScore currentGameScore;
 
-        public TennisGame1(string player1Name, string player2Name)
+        public TennisGame1(string player1Name, string player2Name, IGameScore gameScore)
         {
             this.player1Name = player1Name;
             this.player2Name = player2Name;
-            currentGameScore = new GameScore(player1Name, player2Name);
+            currentGameScore = gameScore;
         }
 
         public void WonPoint(string playerName)
