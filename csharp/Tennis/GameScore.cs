@@ -84,6 +84,16 @@ namespace Tennis
 
         public string getCurrentScore()
         {
+            if (isTie())
+            {
+                return getCurrentTiedScore();
+            }
+
+            if (isDeuce())
+            {
+                return getCurrentDeuceScore();
+            }
+            
             string scoreOutput = "";
             int tempScore;
             for (var i = 1; i < 3; i++)

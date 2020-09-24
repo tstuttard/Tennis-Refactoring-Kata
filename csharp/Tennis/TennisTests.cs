@@ -68,24 +68,24 @@ namespace Tennis
         }
 
         [Test]
-        public void CheckTennisGame1()
+        public void CheckGameScore()
         {
-            var game = new TennisGame1(new GameScore("player1", "player2"));
-            CheckAllScores(game);
+            var gameScore = new GameScore("player1", "player2");
+            CheckAllScores(gameScore);
         }
 
-        private void CheckAllScores(ITennisGame game)
+        private void CheckAllScores(IGameScore game)
         {
             var highestScore = Math.Max(this.player1Score, this.player2Score);
             for (var i = 0; i < highestScore; i++)
             {
                 if (i < this.player1Score)
-                    game.WonPoint("player1");
+                    game.winPoint("player1");
                 if (i < this.player2Score)
-                    game.WonPoint("player2");
+                    game.winPoint("player2");
             }
 
-            Assert.AreEqual(this.expectedScore, game.GetScore());
+            Assert.AreEqual(this.expectedScore, game.getCurrentScore());
         }
     }
 

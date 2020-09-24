@@ -19,15 +19,6 @@ namespace Tennis
             // todo allow the changing of how the scores are displayed
             // todo show which players are winning
             // todo add a wimbledon scoreboard display
-            if (currentGameScore.isTie())
-            {
-                return currentGameScore.getCurrentTiedScore();
-            }
-
-            if (currentGameScore.isDeuce())
-            {
-                return currentGameScore.getCurrentDeuceScore();
-            }
 
             return currentGameScore.getCurrentScore();
         }
