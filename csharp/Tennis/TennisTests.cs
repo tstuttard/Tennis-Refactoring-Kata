@@ -1,8 +1,26 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Tennis
 {
+    class Point
+    {
+        public string PlayerName { get; set; }
+        public string Score { get; set; }
+
+        public Point(string playerName, string score)
+        {
+            PlayerName = playerName;
+            Score = score;
+        }
+
+        public Point()
+        {
+            
+        }
+    }
+    
     [TestFixture(0, 0, "Love-All")]
     [TestFixture(1, 1, "Fifteen-All")]
     [TestFixture(2, 2, "Thirty-All")]
@@ -90,11 +108,43 @@ namespace Tennis
             Assert.AreEqual("player3 not found.", exception.Message);
         }
 
+        [Test]
+        public void PlayerOneWinsTwoGamesWithSecondGameGoingToAdvantage()
+        {
+            var game = new TennisGame1("player1", "player2");
+
+            List<Point> pointsWon = new List<Point>
+            {
+                new Point {PlayerName = "player1", Score = "Fifteen-Love"},
+                new Point {PlayerName = "player1", Score = "Thirty-Love"},
+                new Point {PlayerName = "player2", Score = "Thirty-Fifteen"},
+                new Point {PlayerName = "player2", Score = "Thirty-All"},
+                new Point {PlayerName = "player1", Score = "Forty-Thirty"},
+                new Point {PlayerName = "player1", Score = "Love-All"},
+                new Point {PlayerName = "player1", Score = "Fifteen-Love"},
+                new Point {PlayerName = "player2", Score = "Fifteen-All"},
+                new Point {PlayerName = "player1", Score = "Thirty-Fifteen"},
+                new Point {PlayerName = "player2", Score = "Thirty-All"},
+                new Point {PlayerName = "player2", Score = "Thirty-Forty"},
+                new Point {PlayerName = "player1", Score = "Deuce"},
+                new Point {PlayerName = "player1", Score = "Advantage player1"},
+                new Point {PlayerName = "player2", Score = "Deuce"},
+                new Point {PlayerName = "player1", Score = "Advantage player1"},
+                new Point {PlayerName = "player1", Score = "Love-All"},
+            };
+
+            foreach (Point pointWon in pointsWon)
+            {
+                game.WonPoint(pointWon.PlayerName);
+                Assert.AreEqual(pointWon.Score, game.GetScore());
+            }
+        }
+
         private void RealisticTennisGame(ITennisGame game)
         {
             string[] points = {"player1", "player1", "player2", "player2", "player1", "player1"};
             string[] expectedScores =
-                {"Fifteen-Love", "Thirty-Love", "Thirty-Fifteen", "Thirty-All", "Forty-Thirty", "Win for player1"};
+                {"Fifteen-Love", "Thirty-Love", "Thirty-Fifteen", "Thirty-All", "Forty-Thirty", "Love-All"};
             for (var i = 0; i < 6; i++)
             {
                 game.WonPoint(points[i]);
