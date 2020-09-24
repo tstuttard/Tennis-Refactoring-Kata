@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Tennis
 {
-    class Point
+    internal class Point
     {
         public string playerName { get; }
         public string score { get; }
@@ -104,7 +104,7 @@ namespace Tennis
         {
             var game = new TennisGame1(new GameScore(player1Name, player2Name));
 
-            PlayerNotFoundException exception = Assert.Throws<PlayerNotFoundException>(() => game.WonPoint("player3"));
+            var exception = Assert.Throws<PlayerNotFoundException>(() => game.WonPoint("player3"));
             Assert.AreEqual("player3 not found.", exception.Message);
         }
 
@@ -113,7 +113,7 @@ namespace Tennis
         {
             var game = new TennisGame1(new GameScore(player1Name, player2Name));
 
-            List<Point> pointsWon = new List<Point>
+            var pointsWon = new List<Point>
             {
                 new Point(player1Name, "Fifteen-Love"),
                 new Point(player1Name, "Thirty-Love"),
@@ -133,7 +133,7 @@ namespace Tennis
                 new Point(player1Name,"Love-All"),
             };
 
-            foreach (Point pointWon in pointsWon)
+            foreach (var pointWon in pointsWon)
             {
                 game.WonPoint(pointWon.playerName);
                 Assert.AreEqual(pointWon.score, game.GetScore());
@@ -144,9 +144,9 @@ namespace Tennis
             
         }
 
-        private void RealisticTennisGame(ITennisGame game)
+        private static void RealisticTennisGame(ITennisGame game)
         {
-            List<Point> pointsWon = new List<Point>
+            var pointsWon = new List<Point>
             {
                 new Point(player1Name, "Fifteen-Love"),
                 new Point(player1Name, "Thirty-Love"),
@@ -156,7 +156,7 @@ namespace Tennis
                 new Point(player1Name, "Love-All"),
             };
             
-            foreach (Point pointWon in pointsWon)
+            foreach (var pointWon in pointsWon)
             {
                 game.WonPoint(pointWon.playerName);
                 Assert.AreEqual(pointWon.score, game.GetScore());

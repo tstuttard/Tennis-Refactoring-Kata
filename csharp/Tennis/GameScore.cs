@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Tennis
 {
-    class GameScore : IGameScore
+    internal class GameScore : IGameScore
     {
         private readonly string player1Name;
         private readonly string player2Name;
