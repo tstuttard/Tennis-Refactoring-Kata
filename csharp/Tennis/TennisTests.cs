@@ -70,7 +70,7 @@ namespace Tennis
         [Test]
         public void CheckTennisGame1()
         {
-            var game = new TennisGame1("player1", "player2");
+            var game = new TennisGame1(new GameScore("player1", "player2"));
             CheckAllScores(game);
         }
 
@@ -95,14 +95,14 @@ namespace Tennis
         [Test]
         public void CheckGame1()
         {
-            var game = new TennisGame1("player1", "player2");
+            var game = new TennisGame1(new GameScore("player1", "player2"));
             RealisticTennisGame(game);
         }
 
         [Test]
         public void OnlyAllowTwoPlayers()
         {
-            var game = new TennisGame1("player1", "player2");
+            var game = new TennisGame1(new GameScore("player1", "player2"));
 
             PlayerNotFoundException exception = Assert.Throws<PlayerNotFoundException>(() => game.WonPoint("player3"));
             Assert.AreEqual("player3 not found.", exception.Message);
@@ -111,7 +111,7 @@ namespace Tennis
         [Test]
         public void PlayerOneWinsTwoGamesWithSecondGameGoingToAdvantage()
         {
-            var game = new TennisGame1("player1", "player2");
+            var game = new TennisGame1(new GameScore("player1", "player2"));
 
             List<Point> pointsWon = new List<Point>
             {

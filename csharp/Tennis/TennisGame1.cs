@@ -118,15 +118,11 @@ namespace Tennis
 
     class TennisGame1 : ITennisGame
     {
-        private string player1Name;
-        private string player2Name;
         private GameScore currentGameScore;
 
-        public TennisGame1(string player1Name, string player2Name)
+        public TennisGame1(GameScore gameScore)
         {
-            this.player1Name = player1Name;
-            this.player2Name = player2Name;
-            currentGameScore = new GameScore(player1Name, player2Name);
+            currentGameScore = gameScore;
         }
 
         public void WonPoint(string playerName)
@@ -136,8 +132,6 @@ namespace Tennis
 
         public string GetScore()
         {
-            string scoreOutput;
-
             // todo allow the changing of how the scores are displayed
             // todo show which players are winning
             // todo add a wimbledon scoreboard display
