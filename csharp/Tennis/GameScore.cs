@@ -16,12 +16,12 @@ namespace Tennis
             points[player2Name] = 0;
         }
 
-        public int getPlayerOnePointsWon()
+        private int getPlayerOnePointsWon()
         {
             return points[player1Name];
         }
 
-        public int getPlayerTwoPointsWon()
+        private int getPlayerTwoPointsWon()
         {
             return points[player2Name];
         }
@@ -123,6 +123,16 @@ namespace Tennis
             }
 
             return scoreOutput;
+        }
+
+        public string getPlayerTwoName()
+        {
+            return player2Name;
+        }
+
+        public string getPlayerOneName()
+        {
+            return player1Name;
         }
     }
 }

@@ -138,6 +138,10 @@ namespace Tennis
                 game.WonPoint(pointWon.PlayerName);
                 Assert.AreEqual(pointWon.Score, game.GetScore());
             }
+
+            Assert.AreEqual(2, game.GetGamesWon("player1"));
+            Assert.AreEqual(0, game.GetGamesWon("player2"));
+            
         }
 
         private void RealisticTennisGame(ITennisGame game)
