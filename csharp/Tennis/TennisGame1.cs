@@ -7,6 +7,7 @@ namespace Tennis
         private string player1Name;
         private string player2Name;
         private Dictionary<string, int> points = new Dictionary<string, int>();
+
         public GameScore(string player1Name, string player2Name)
         {
             this.player1Name = player1Name;
@@ -31,7 +32,7 @@ namespace Tennis
             {
                 throw new PlayerNotFoundException($"{playerName} not found.");
             }
-            
+
             points[playerName] += 1;
         }
 
@@ -44,8 +45,77 @@ namespace Tennis
         {
             return points[player1Name] >= 4 || points[player2Name] >= 4;
         }
+
+        public string getCurrentTiedScore()
+        {
+            switch (getPlayerOnePointsWon())
+            {
+                case 0:
+                    return "Love-All";
+                case 1:
+                    return "Fifteen-All";
+                case 2:
+                    return "Thirty-All";
+                default:
+                    return "Deuce";
+            }
+        }
+
+        public string getCurrentDeuceScore()
+        {
+            var minusResult = this.getPlayerOnePointsWon() - this.getPlayerTwoPointsWon();
+            if (minusResult == 1)
+            {
+                return "Advantage player1";
+            }
+
+            if (minusResult == -1)
+            {
+                return "Advantage player2";
+            }
+
+            if (minusResult >= 2)
+            {
+                return "Win for player1";
+            }
+
+            return "Win for player2";
+        }
+
+        public string getCurrentScore()
+        {
+            string scoreOutput = "";
+            int tempScore;
+            for (var i = 1; i < 3; i++)
+            {
+                if (i == 1) tempScore = getPlayerOnePointsWon();
+                else
+                {
+                    scoreOutput += "-";
+                    tempScore = getPlayerTwoPointsWon();
+                }
+
+                switch (tempScore)
+                {
+                    case 0:
+                        scoreOutput += "Love";
+                        break;
+                    case 1:
+                        scoreOutput += "Fifteen";
+                        break;
+                    case 2:
+                        scoreOutput += "Thirty";
+                        break;
+                    case 3:
+                        scoreOutput += "Forty";
+                        break;
+                }
+            }
+
+            return scoreOutput;
+        }
     }
-    
+
     class TennisGame1 : ITennisGame
     {
         private string player1Name;
@@ -66,64 +136,22 @@ namespace Tennis
 
         public string GetScore()
         {
-            string scoreOutput = "";
-            var tempScore = 0;
-            
+            string scoreOutput;
+
             // todo allow the changing of how the scores are displayed
             // todo show which players are winning
             // todo add a wimbledon scoreboard display
             if (currentGameScore.isTie())
             {
-                switch (currentGameScore.getPlayerOnePointsWon())
-                {
-                    case 0:
-                        scoreOutput = "Love-All";
-                        break;
-                    case 1:
-                        scoreOutput = "Fifteen-All";
-                        break;
-                    case 2:
-                        scoreOutput = "Thirty-All";
-                        break;
-                    default:
-                        scoreOutput = "Deuce";
-                        break;
+                return currentGameScore.getCurrentTiedScore();
+            }
 
-                }
-            }
-            else if (currentGameScore.isDeuce())
+            if (currentGameScore.isDeuce())
             {
-                var minusResult = currentGameScore.getPlayerOnePointsWon() - currentGameScore.getPlayerTwoPointsWon();
-                if (minusResult == 1) scoreOutput = "Advantage player1";
-                else if (minusResult == -1) scoreOutput = "Advantage player2";
-                else if (minusResult >= 2) scoreOutput = "Win for player1";
-                else scoreOutput = "Win for player2";
+                return currentGameScore.getCurrentDeuceScore();
             }
-            else
-            {
-                for (var i = 1; i < 3; i++)
-                {
-                    if (i == 1) tempScore = currentGameScore.getPlayerOnePointsWon();
-                    else { scoreOutput += "-"; tempScore = currentGameScore.getPlayerTwoPointsWon(); }
-                    switch (tempScore)
-                    {
-                        case 0:
-                            scoreOutput += "Love";
-                            break;
-                        case 1:
-                            scoreOutput += "Fifteen";
-                            break;
-                        case 2:
-                            scoreOutput += "Thirty";
-                            break;
-                        case 3:
-                            scoreOutput += "Forty";
-                            break;
-                    }
-                }
-            }
-            return scoreOutput;
+
+            return currentGameScore.getCurrentScore();
         }
     }
 }
-
