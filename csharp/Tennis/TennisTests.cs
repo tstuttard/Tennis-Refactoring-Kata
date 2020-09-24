@@ -92,17 +92,20 @@ namespace Tennis
     [TestFixture]
     public class ExampleGameTennisTest
     {
+        private const string player1Name = "player1";
+        private const string player2Name = "player2";
+
         [Test]
         public void CheckGame1()
         {
-            var game = new TennisGame1(new GameScore("player1", "player2"));
+            var game = new TennisGame1(new GameScore(player1Name, player2Name));
             RealisticTennisGame(game);
         }
 
         [Test]
         public void OnlyAllowTwoPlayers()
         {
-            var game = new TennisGame1(new GameScore("player1", "player2"));
+            var game = new TennisGame1(new GameScore(player1Name, player2Name));
 
             PlayerNotFoundException exception = Assert.Throws<PlayerNotFoundException>(() => game.WonPoint("player3"));
             Assert.AreEqual("player3 not found.", exception.Message);
@@ -111,26 +114,26 @@ namespace Tennis
         [Test]
         public void PlayerOneWinsTwoGamesWithSecondGameGoingToAdvantage()
         {
-            var game = new TennisGame1(new GameScore("player1", "player2"));
+            var game = new TennisGame1(new GameScore(player1Name, player2Name));
 
             List<Point> pointsWon = new List<Point>
             {
-                new Point {PlayerName = "player1", Score = "Fifteen-Love"},
-                new Point {PlayerName = "player1", Score = "Thirty-Love"},
-                new Point {PlayerName = "player2", Score = "Thirty-Fifteen"},
-                new Point {PlayerName = "player2", Score = "Thirty-All"},
-                new Point {PlayerName = "player1", Score = "Forty-Thirty"},
-                new Point {PlayerName = "player1", Score = "Love-All"},
-                new Point {PlayerName = "player1", Score = "Fifteen-Love"},
-                new Point {PlayerName = "player2", Score = "Fifteen-All"},
-                new Point {PlayerName = "player1", Score = "Thirty-Fifteen"},
-                new Point {PlayerName = "player2", Score = "Thirty-All"},
-                new Point {PlayerName = "player2", Score = "Thirty-Forty"},
-                new Point {PlayerName = "player1", Score = "Deuce"},
-                new Point {PlayerName = "player1", Score = "Advantage player1"},
-                new Point {PlayerName = "player2", Score = "Deuce"},
-                new Point {PlayerName = "player1", Score = "Advantage player1"},
-                new Point {PlayerName = "player1", Score = "Love-All"},
+                new Point(player1Name, "Fifteen-Love"),
+                new Point(player1Name, "Thirty-Love"),
+                new Point(player2Name,"Thirty-Fifteen"),
+                new Point(player2Name,"Thirty-All"),
+                new Point(player1Name,"Forty-Thirty"),
+                new Point(player1Name,"Love-All"),
+                new Point(player1Name,"Fifteen-Love"),
+                new Point(player2Name,"Fifteen-All"),
+                new Point(player1Name,"Thirty-Fifteen"),
+                new Point(player2Name,"Thirty-All"),
+                new Point(player2Name,"Thirty-Forty"),
+                new Point(player1Name,"Deuce"),
+                new Point(player1Name,"Advantage player1"),
+                new Point(player2Name,"Deuce"),
+                new Point(player1Name,"Advantage player1"),
+                new Point(player1Name,"Love-All"),
             };
 
             foreach (Point pointWon in pointsWon)
@@ -139,20 +142,31 @@ namespace Tennis
                 Assert.AreEqual(pointWon.Score, game.GetScore());
             }
 
-            Assert.AreEqual(2, game.GetGamesWon("player1"));
-            Assert.AreEqual(0, game.GetGamesWon("player2"));
+            Assert.AreEqual(2, game.GetGamesWon(player1Name));
+            Assert.AreEqual(0, game.GetGamesWon(player2Name));
             
         }
 
         private void RealisticTennisGame(ITennisGame game)
         {
-            string[] points = {"player1", "player1", "player2", "player2", "player1", "player1"};
+            string[] points = {player1Name, player1Name, player2Name, player2Name, player1Name, player1Name};
             string[] expectedScores =
                 {"Fifteen-Love", "Thirty-Love", "Thirty-Fifteen", "Thirty-All", "Forty-Thirty", "Love-All"};
-            for (var i = 0; i < 6; i++)
+
+            List<Point> pointsWon = new List<Point>
             {
-                game.WonPoint(points[i]);
-                Assert.AreEqual(expectedScores[i], game.GetScore());
+                new Point(player1Name, "Fifteen-Love"),
+                new Point(player1Name, "Thirty-Love"),
+                new Point(player2Name, "Thirty-Fifteen"),
+                new Point(player2Name, "Thirty-All"),
+                new Point(player1Name, "Forty-Thirty"),
+                new Point(player1Name, "Love-All"),
+            };
+            
+            foreach (Point pointWon in pointsWon)
+            {
+                game.WonPoint(pointWon.PlayerName);
+                Assert.AreEqual(pointWon.Score, game.GetScore());
             }
         }
     }
